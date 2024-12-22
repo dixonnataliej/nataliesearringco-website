@@ -1,0 +1,7 @@
+- Add home/about/subtab pages to right of name in header to use the space, like peripheral shop's website
+- use clientside/js/react so users can click on tags to sort w/o a refresh
+- underline tab names (ex about) when user hovers over them mmmm so cool
+- created line in database is just for me to see when I made listings, only make visible to owner
+- at some point i'll figure out login, really only want the owner to be able to log in (secret button?)
+- disclaimer on website that this is a CS coding project for me! hence why no built in shop feature etc
+
