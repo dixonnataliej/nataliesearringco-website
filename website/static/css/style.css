@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.header {
+    background-color: #fe877d; /* Pink background */
+    color: #63c564; /* Green text color */
+    display: flex; /* Aligns logo and text horizontally */
+    align-items: center; /* Vertically centers content */
+    padding: 10px 20px; /* Adds spacing around the header content */
+    height: 100px; /* Sets the height of the header */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for some depth */
+}
+
+.logo {
+    height: 80px; /* Sets the height of the logo */
+    margin-right: 20px; /* Adds spacing between the logo and the text */
+}
+
+.brand-name {
+    font-family: 'Brush Script MT', cursive; /* Cursive font */
+    font-size: 4rem; /* Adjusts the size of the text - relative to root elt */
+    color: white; /* Green or white ?? */
+    white-
