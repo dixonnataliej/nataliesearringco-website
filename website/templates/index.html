@@ -20,5 +20,12 @@ under development :)
 {% for name in post_names %}
 <p>{{name.name}}</p>
 {% endfor %}
+<div id="reactEntry">
+    Loading ...
+  </div>
+  <!-- Load JavaScript to show gallery-->
+  <script type="text/javascript"
+          src="{{ url_for('static', filename='js/bundle.js')
+}}"></script>
 </body>
 </html>
