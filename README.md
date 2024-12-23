@@ -1,0 +1,1 @@
+I am creating a website for my earring business! This is meant to be more of a coding project than a uber-functional shopify-esque website, but will hopefully display my earrings better than my instagram page for people without instagram or interested in seeing all of the earrings I have available at once. Highly inspired by my Web Systems class.
