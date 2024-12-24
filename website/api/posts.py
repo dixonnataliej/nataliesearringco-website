@@ -3,6 +3,7 @@ import flask
 import website
 from website.api import queries
 
+
 @website.app.route('/api/v1/posts/')
 def get_posts():
     """Get posts."""
