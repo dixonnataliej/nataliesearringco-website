@@ -52,4 +52,6 @@ export default function Gallery() {
   {postUrls.map((url) => (
             <Post key={url} url={url} />
           ))}
-  )
+  </div>
+  );
+}

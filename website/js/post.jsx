@@ -35,10 +35,10 @@ export default function Post({ url }) {
       // should avoid updating state.
       ignoreStaleRequest = true;
     };
-  }, [url]);
 
   return (
      <div className="post">
+     this is where posturl should be:
      <p>{postUrl}</p>
      </div>
   );
