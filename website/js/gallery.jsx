@@ -47,7 +47,7 @@ export default function Gallery() {
   };
 
   return (
-  <div className="feed">
+  <div className="gallery">
   <p> Here's where the java script gallery is: </p>
   {postUrls.map((url) => (
             <Post key={url} url={url} />

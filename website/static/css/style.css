@@ -23,4 +23,19 @@ body {
     font-family: 'Brush Script MT', cursive; /* Cursive font */
     font-size: 4rem; /* Adjusts the size of the text - relative to root elt */
     color: white; /* Green or white ?? */
-    white-
+}
+
+.gallery {
+    display: grid;
+    gap: 20px; /* Space between items */
+    grid-template-columns: repeat(4, 1fr); /* Create 4 equal columns */
+    grid-auto-rows: 1fr; /* Automatically adjusts row height */
+    justify-items: center; /* Center the grid items */
+}
+
+.post-image {
+    width: 100%; /* Make image fill the grid cell */
+    aspect-ratio: 1; /* height is the same as the width, making it square */
+    object-fit: cover; /* Maintain aspect ratio, crop if needed */
+    border-radius: 8px; /* Optional: add rounded corners for styling */
+}
