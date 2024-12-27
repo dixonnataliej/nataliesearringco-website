@@ -9,12 +9,19 @@ dayjs.extend(utc);
 
 export default function Post({ url }) {
     const [postUrl, setPostUrl] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
+    const [name, setName] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+    const [status, setStatus] = useState("");
+    const [timestamp, setTimestamp] = useState("");
+    const [tags, setTags] = useState([]);
     useEffect(() => {
         // Declare a boolean flag that we can use to cancel the API request.
         let ignoreStaleRequest = false;
         setPostUrl(url)
 
-        /*    // Call REST API to get the post's information
+       // Call REST API to get the post's information
         fetch(url, { credentials: "same-origin" })
           .then((response) => {
             if (!response.ok) throw Error(response.statusText);
@@ -24,10 +31,16 @@ export default function Post({ url }) {
             // If ignoreStaleRequest was set to true, we want to ignore the results of the
             // the request. Otherwise, update the state to trigger a new render.
             if (!ignoreStaleRequest) {
-              setPostUrl(data.posturlsomethingsomething);
+              setImgUrl(data.img_url);
+              setName(data.name);
+              setPrice(data.price);
+              setDescription(data.description);
+              setStatus(data.status);
+              setTimestamp(dayjs.utc(data.created).local().fromNow());
+              setTags(data.tags);
             }
           })
-          .catch((error) => console.log(error)); */
+          .catch((error) => console.log(error));
 
         return () => {
           // This is a cleanup function that runs whenever the Post component
@@ -41,6 +54,19 @@ export default function Post({ url }) {
      <div className="post">
      this is where posturl should be:
      <p>{postUrl}</p>
+     <img src={imgUrl} alt={name} className="post-image" />
+      <h2 className="post-name">{name}</h2>
+      <p className="post-price">{price}</p>
+      <p className="post-description">{description}</p>
+      <p className="post-status">{status}</p>
+      <p className="post-timestamp">{timestamp}</p>
+      <ul className="post-tags">
+        {tags.map((tag, index) => (
+          <li key={index} className="post-tag">
+            {tag}
+          </li>
+        ))}
+      </ul>
      </div>
   );
 }

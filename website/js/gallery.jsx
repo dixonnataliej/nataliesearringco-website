@@ -17,10 +17,10 @@ export default function Gallery() {
       })
       .then((data) => {
         if (!ignoreStaleRequest) {
-          setPostUrls((prevPostUrls) => [
-            ...prevPostUrls,
-            ...data.results.map((item) => item.url),
-          ]);
+        setPostUrls((prevPostUrls) => {
+          const newUrls = data.results.map((item) => item.url);
+          return [...new Set([...prevPostUrls, ...newUrls])]; // Avoid duplicates
+        });
 
           setNext(data.next);
           setHasMore(!!data.next); // Set hasMore to true if next page exists

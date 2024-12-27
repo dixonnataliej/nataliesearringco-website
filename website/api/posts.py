@@ -38,10 +38,9 @@ def get_posts():
     # List of posts we're returning
     posts_dict = []
     for i in range(it_num):
-        post_name = all_posts[i]["name"]
         postid = all_posts[i]["postid"]
-        url = "/api/v1/posts/" + str(post_name) + "/"
-        new_post = {"post_name": post_name, "postid": postid, "url": url}
+        url = "/api/v1/posts/" + str(postid) + "/"
+        new_post = {"postid": postid, "url": url}
         posts_dict.append(new_post)
 
     # Add posts to return data
@@ -55,3 +54,29 @@ def get_posts():
     posts_data["url"] = url
 
     return flask.jsonify(posts_data), 200
+
+
+@website.app.route('/api/v1/posts/<int:postid>/')
+def get_one_post(postid):
+    """Get one post from post url."""
+
+    # Check postid in range
+    in_range = queries.postid_inrange(postid)
+    if not in_range:
+        return flask.abort(404)
+
+    data = {}
+    post_info = queries.get_post_info(postid)
+    data["postid"] = postid
+    data["img_url"] = "/uploads/" + post_info["filename"]
+    data["name"] = post_info["name"]
+    data["price"] = post_info["price"]
+    data["description"] = post_info["description"]
+    data["status"] = post_info["status"]
+    data["created"] = post_info["created"]
+
+    # Fetch and add tags to the data
+    tags = queries.get_tags_for_post(postid)
+    data["tags"] = tags
+
+    return flask.jsonify(data), 200

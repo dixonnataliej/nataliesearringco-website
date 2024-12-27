@@ -35,3 +35,43 @@ def get_recent_postid():
     postid = cur.fetchone()
     postid = postid["postid"]
     return postid
+
+def postid_inrange(postid):
+    """Check if postid is in range of existing ids."""
+    connection = website.model.get_db()
+    cur = connection.execute(
+        "SELECT postid "
+        "FROM posts "
+        "WHERE postid = ?",
+        (postid,)
+    )
+    details = cur.fetchone()
+    if details is None:
+        return False
+    else:
+        return True
+
+def get_post_info(postid):
+    """Gets post info."""
+    connection = website.model.get_db()
+    cur = connection.execute(
+        "SELECT postid, filename, name, price, description, status, created "
+        "FROM posts "
+        "WHERE postid = ?",
+        (postid,)
+    )
+    post_info = cur.fetchone()
+    return post_info
+
+def get_tags_for_post(postid):
+    """Gets tags for a post."""
+    connection = website.model.get_db()
+    cur = connection.execute(
+        "SELECT tags.name "
+        "FROM tags "
+        "INNER JOIN post_tags ON tags.tagid = post_tags.tagid "
+        "WHERE post_tags.postid = ?",
+        (postid,)
+    )
+    tags = cur.fetchall()
+    return [tag["name"] for tag in tags]
