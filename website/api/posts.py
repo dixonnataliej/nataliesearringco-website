@@ -74,6 +74,7 @@ def get_one_post(postid):
     data["description"] = post_info["description"]
     data["status"] = post_info["status"]
     data["created"] = post_info["created"]
+    data["humanPostUrl"] = "/posts/" + post_info["name"] + '/'
 
     # Fetch and add tags to the data
     tags = queries.get_tags_for_post(postid)

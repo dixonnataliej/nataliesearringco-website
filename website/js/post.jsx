@@ -8,7 +8,8 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
 export default function Post({ url }) {
-    const [postUrl, setPostUrl] = useState("");
+    const [APIPostUrl, setAPIPostUrl] = useState("");
+    const [humanPostUrl, setHumanPostUrl] = useState("");
     const [imgUrl, setImgUrl] = useState("");
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -19,7 +20,7 @@ export default function Post({ url }) {
     useEffect(() => {
         // Declare a boolean flag that we can use to cancel the API request.
         let ignoreStaleRequest = false;
-        setPostUrl(url)
+        setAPIPostUrl(url)
 
        // Call REST API to get the post's information
         fetch(url, { credentials: "same-origin" })
@@ -31,6 +32,7 @@ export default function Post({ url }) {
             // If ignoreStaleRequest was set to true, we want to ignore the results of the
             // the request. Otherwise, update the state to trigger a new render.
             if (!ignoreStaleRequest) {
+              setHumanPostUrl(data.humanPostUrl);
               setImgUrl(data.img_url);
               setName(data.name);
               setPrice(data.price);
@@ -52,8 +54,9 @@ export default function Post({ url }) {
 
   return (
      <div className="post">
+     <a href={humanPostUrl}>
      this is where posturl should be:
-     <p>{postUrl}</p>
+     <p>{APIPostUrl}</p>
      <img src={imgUrl} alt={name} className="post-image" />
       <h2 className="post-name">{name}</h2>
       <p className="post-price">{price}</p>
@@ -67,6 +70,7 @@ export default function Post({ url }) {
           </li>
         ))}
       </ul>
+      </a>
      </div>
   );
 }
