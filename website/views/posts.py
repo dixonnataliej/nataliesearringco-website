@@ -45,6 +45,20 @@ def show_post(postname_url_slug):
 @website.app.route("/posts/", methods=["POST"])
 def update_posts():
     """Create, delete, or edit posts."""
+    connection = website.model.get_db()
+    operation = flask.request.form['operation']
+    if operation == "create":
+        file = flask.request.form['file']
+        name = flask.request.form['name']
+        price = flask.request.form['price']
+        description = flask.request.form['description']
+        status = flask.request.form['status']
+
+        connection.execute(
+            "INSERT INTO posts (filename, name, price, description, "
+            "status) VALUES (?, ?, ?, ?, ?)",
+            (file, name, price, description, status))
+    # endif creating a post
     # FIXME: write this
     return
 

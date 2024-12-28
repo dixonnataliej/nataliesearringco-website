@@ -9,4 +9,7 @@
 - will have to change pagination when i implement tags - add tags as a variable for which posts show up
 - do i want the client facing url to be posts/<post name> or something like products/<post-name> ?
 - automatic new tag feature - when new earrings are posted, give them the new tag, then prompt to delete new tags off of earrings posted more than one or two weeks ago
+- add in tag identification (select from existing tags/add new tag) to create post feature
+
+ADDRESSED
 - fix url for posts - add dashes i think the white space is causing problems
