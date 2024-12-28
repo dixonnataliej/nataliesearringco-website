@@ -48,17 +48,38 @@ def update_posts():
     connection = website.model.get_db()
     operation = flask.request.form['operation']
     if operation == "create":
-        file = flask.request.form['file']
         name = flask.request.form['name']
         price = flask.request.form['price']
         description = flask.request.form['description']
         status = flask.request.form['status']
 
+        # Get file object
+        fileobj = flask.request.files["file"]
+        filename = fileobj.filename
+
+        # Check if no file was uploaded or the file is empty
+        if filename == "" or fileobj.read() == b"":
+            return flask.abort(400)
+
+        # Check if the file is empty without altering the file pointer
+        fileobj.seek(0, os.SEEK_END)  # Move to the end of the file
+        fileobj.seek(0)  # Reset pointer to the beginning
+
+        # Compute base name (filename without directory) w UUID
+        stem = uuid.uuid4().hex
+        suffix = pathlib.Path(filename).suffix.lower()
+        uuid_basename = f"{stem}{suffix}"
+
+        # Save to disk
+        path = website.app.config["UPLOAD_FOLDER"] / uuid_basename
+        fileobj.save(path)
+
         connection.execute(
             "INSERT INTO posts (filename, name, price, description, "
             "status) VALUES (?, ?, ?, ?, ?)",
-            (file, name, price, description, status))
+            (uuid_basename, name, price, description, status))
     # endif creating a post
-    # FIXME: write this
-    return
+    # FIXME: write delete and edit
+    url = flask.url_for('show_index')  # return to home page
+    return flask.redirect(url)
 
