@@ -39,7 +39,7 @@ def show_post(postname_url_slug):
 
     context = {"postid": postid, "img_url": img_url, "name": name, "price":
         price, "description": description, "status": status, "timestamp":
-        timestamp}
+        timestamp, "postname_url_slug": postname_url_slug}
     return flask.render_template("post.html", **context)
 
 @website.app.route("/posts/", methods=["POST"])
@@ -96,7 +96,62 @@ def update_posts():
         path = website.app.config["UPLOAD_FOLDER"] / filename_to_delete
         os.remove(path)
     # endif deleting a post
-    # FIXME: write delete and edit
+    # FIXME: write edit
+    if operation == "edit":
+        name = flask.request.form['name']
+        price = flask.request.form['price']
+        description = flask.request.form['description']
+        status = flask.request.form['status']
+        postid = flask.request.form['postid']
+        connection.execute(
+            "UPDATE posts SET name = ?, price = ?, description = ?, "
+            "status = ? WHERE postid = ?",
+            (name, price, description, status, postid,)
+        )  # update all with new or previous content, perhaps inefficient
+
+        # Get optional file object
+        fileobj = flask.request.files["file"]
+        filename = fileobj.filename
+
+        # Check if a file was uploaded
+        if not filename == "":
+            if fileobj.read() == b"":
+                return flask.abort(400)  # if fileobj is empty
+            # find cur filename to delete
+            cur = connection.execute(
+                "SELECT filename "
+                "FROM posts "
+                "WHERE postid = ?",
+                (postid,)
+            )
+            file_to_delete = cur.fetchone()
+            filename_to_delete = file_to_delete['filename']
+            path = website.app.config["UPLOAD_FOLDER"] / filename_to_delete
+            os.remove(path)
+
+            # Check if the file is empty without altering the file pointer
+            fileobj.seek(0, os.SEEK_END)  # Move to the end of the file
+            fileobj.seek(0)  # Reset pointer to the beginning
+
+            # Compute base name (filename without directory) w UUID
+            stem = uuid.uuid4().hex
+            suffix = pathlib.Path(filename).suffix.lower()
+            uuid_basename = f"{stem}{suffix}"
+            connection.execute(
+                "UPDATE posts SET filename = ? WHERE postid = ?",
+                (uuid_basename, postid,)
+            )
+            # Save to disk
+            path = website.app.config["UPLOAD_FOLDER"] / uuid_basename
+            fileobj.save(path)
+        # endif uploaded a new file
+        url = flask.request.args.get(
+            'target',
+            default=flask.url_for('show_index'),
+            type=str
+        )
+        return flask.redirect(url)
+        # end if edit
     url = flask.url_for('show_index')  # return to home page
     return flask.redirect(url)
 

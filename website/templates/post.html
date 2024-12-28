@@ -6,10 +6,14 @@
     <title>
         NataliesEarringCo Website
     </title>
+    <script src="/static/js/edit_post.js" defer></script>
 </head>
 
 <body>
    <p>{{name}} will go here!</p>
+
+<button id="edit-post-btn">Edit Post</button>
+
 
 <form action="{{url_for('update_posts')}}"
       method="post" enctype="multipart/form-data">
@@ -17,5 +21,41 @@
   <input type="hidden" name="postid" value="{{postid}}"/>
   <input type="submit" name="delete" value="delete this post"/>
 </form>
+
+
+<!-- Hidden Form for Updating the Post triggered by JS edit post btn-->
+<div id="update-post-form" style="display: none;">
+<form action="{{url_for('update_posts')}}?target={{ url_for('show_post',
+ postname_url_slug=postname_url_slug) }}" method="post"
+      enctype="multipart/form-data">
+    <input type="hidden" name="postid" value="{{ postid }}">
+    <input type="hidden" name="operation" value="edit"/>
+
+    <!-- Name -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ name }}" required>
+
+    <!-- Price -->
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" value="{{ price }}" required>
+
+    <!-- Description -->
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="4" cols="50"
+              required>{{ description }}</textarea>
+
+    <!-- Status -->
+    <label for="status">Status:</label>
+    <input type="text" id="status" name="status" value="{{ status }}" required>
+
+    <!-- Optional Image Update -->
+    <label for="file">Change Image (optional):</label>
+    <input type="file" id="file" name="file" accept="image/*">
+
+    <!-- Submit Button -->
+    <button type="submit">Update Post</button>
+</form>
+    <button id="cancel-edit-btn">Cancel</button>
+</div>
 </body>
 </html>
