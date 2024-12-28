@@ -20,6 +20,7 @@ under development :)
 {% for name in post_names %}
 <p>{{name.name}}</p>
 {% endfor %}
+<a href="{{url_for('show_new_post_page')}}">create new post</a>
 <div id="reactEntry">
     Loading ...
   </div>

@@ -42,3 +42,9 @@ def show_post(postname_url_slug):
         timestamp}
     return flask.render_template("post.html", **context)
 
+@website.app.route("/posts/", methods=["POST"])
+def update_posts():
+    """Create, delete, or edit posts."""
+    # FIXME: write this
+    return
+

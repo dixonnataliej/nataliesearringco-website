@@ -55,8 +55,6 @@ export default function Post({ url }) {
   return (
      <div className="post">
      <a href={humanPostUrl}>
-     this is where posturl should be:
-     <p>{APIPostUrl}</p>
      <img src={imgUrl} alt={name} className="post-image" />
       <h2 className="post-name">{name}</h2>
       <p className="post-price">{price}</p>

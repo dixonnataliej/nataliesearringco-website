@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>
+        nataliesearringco website
+    </title>
+</head>
+
+<body>
+<p>Let's post some earrings!</p>
+<form action="/posts/" method="post"
+      enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" required/>
+    <input type="text" name="name" placeholder="Name" maxlength="64" required/>
+    <input type="text" name="price" placeholder="Price" maxlength="64"
+           required/>
+    <textarea name="description" placeholder="Description" maxlength="1024"
+              required></textarea>
+    <input type="submit" name="create_post" value="upload new post"/>
+    <input type="hidden" name="operation" value="create"/>
+</form>
+</body>
+</html>
