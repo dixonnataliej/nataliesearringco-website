@@ -79,6 +79,23 @@ def update_posts():
             "status) VALUES (?, ?, ?, ?, ?)",
             (uuid_basename, name, price, description, status))
     # endif creating a post
+    if operation == "delete":
+        postid_to_delete = flask.request.form['postid']
+        cur = connection.execute(
+            "SELECT filename "
+            "FROM posts "
+            "WHERE postid = ? ",
+            (postid_to_delete,)
+        )
+        result = cur.fetchone()
+        filename_to_delete = result['filename']  # gets file_to_delete as str
+        connection.execute(
+            "DELETE FROM posts WHERE postid = ?",
+            (postid_to_delete,)
+        )
+        path = website.app.config["UPLOAD_FOLDER"] / filename_to_delete
+        os.remove(path)
+    # endif deleting a post
     # FIXME: write delete and edit
     url = flask.url_for('show_index')  # return to home page
     return flask.redirect(url)
