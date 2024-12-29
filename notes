@@ -6,11 +6,12 @@
 - disclaimer on website that this is a CS coding project for me! hence why no built in shop feature etc
 - FAQ, "shopping" cart section (a place to save what you've been looking at (temporarily i think i don't want to get into accounts and cookies) with the contact button to DM or email me about buying)
 - omg should i put a search feature in?? i mean technically i know how to do it, what a culminative post 485 project this would be then. it would be pretty simple search though
-- will have to change pagination when i implement tags - add tags as a variable for which posts show up
 - do i want the client facing url to be posts/<post name> or something like products/<post-name> ?
 - automatic new tag feature - when new earrings are posted, give them the new tag, then prompt to delete new tags off of earrings posted more than one or two weeks ago
 - add in tag identification (select from existing tags/add new tag) to create post feature
 - currently making separate static js files for just little buttons i'm adding in as opposed to in my react component section, not sure if this is best practice
+- I should make lots of things ex the overlap in create/edit/delete post into helper functions. later efficiency work
 
 ADDRESSED
 - fix url for posts - add dashes i think the white space is causing problems
+- will have to change pagination when i implement tags - add tags as a variable for which posts show up

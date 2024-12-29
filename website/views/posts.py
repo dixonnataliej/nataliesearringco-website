@@ -38,9 +38,24 @@ def show_post(postname_url_slug, postid_url_slug):
     created_arrow = arrow.get(post_info["created"])
     timestamp = created_arrow.humanize()
 
+    cur = connection.execute(
+        "SELECT name, tagid "
+        "FROM tags"
+    )
+    all_tags = cur.fetchall()
+
+    # Fetch tags already linked to the post
+    post_tags_ids = connection.execute(
+        "SELECT tagid FROM post_tags WHERE postid = ?", (postid,)
+    ).fetchall()
+
+    # Convert `post_tags` to a list of tag IDs for easier checking
+    post_tags_ids = [tag['tagid'] for tag in post_tags_ids]
+
     context = {"postid": postid, "img_url": img_url, "name": name, "price":
         price, "description": description, "status": status, "timestamp":
-        timestamp, "postname_url_slug": postname_url_slug}
+        timestamp, "postname_url_slug": postname_url_slug, "all_tags":
+        all_tags, "post_tags_ids": post_tags_ids}
     return flask.render_template("post.html", **context)
 
 @website.app.route("/posts/", methods=["POST"])
@@ -98,6 +113,7 @@ def update_posts():
                     new_tag.strip())  # Save each new tag
                 link_tag_to_post(postid, new_tag_id)
     # endif creating a post
+
     if operation == "delete":
         postid_to_delete = flask.request.form['postid']
         cur = connection.execute(
@@ -114,8 +130,16 @@ def update_posts():
         )
         path = website.app.config["UPLOAD_FOLDER"] / filename_to_delete
         os.remove(path)
+
+        # Remove links to tags
+        post_tags = connection.execute(
+            "SELECT tagid FROM post_tags WHERE postid = ?", (postid_to_delete,)
+        ).fetchall()
+        post_tags = [tag['tagid'] for tag in post_tags]
+        for tagid in post_tags:
+            unlink_tag_to_post(postid_to_delete, tagid)
     # endif deleting a post
-    # FIXME: write edit
+
     if operation == "edit":
         name = flask.request.form['name']
         price = flask.request.form['price']
@@ -164,11 +188,30 @@ def update_posts():
             path = website.app.config["UPLOAD_FOLDER"] / uuid_basename
             fileobj.save(path)
         # endif uploaded a new file
+        # now deal with tags
+        selected_tags = flask.request.form.getlist('tags')
+        selected_tags = [int(tagid) for tagid in
+                         selected_tags]  # Convert to integers
+        # Existing tags
+        post_tags = connection.execute(
+            "SELECT tagid FROM post_tags WHERE postid = ?", (postid,)
+        ).fetchall()
+        post_tags = [tag['tagid'] for tag in post_tags]
+        # Tags to add
+        tags_to_add = set(selected_tags) - set(post_tags)
+        for tagid in tags_to_add:
+            link_tag_to_post(postid, tagid)
+
+        # Tags to remove
+        tags_to_remove = set(post_tags) - set(selected_tags)
+        for tagid in tags_to_remove:
+            unlink_tag_to_post(postid, tagid)
+
         url = flask.request.args.get(
             'target',
             default=flask.url_for('show_index'),
             type=str
-        )
+        )  # redirect to post's page
         return flask.redirect(url)
         # end if edit
     url = flask.url_for('show_index')  # return to home page
@@ -196,3 +239,15 @@ def create_new_tag(tag_name):
     )
     new_tag_id = cur.lastrowid
     return new_tag_id
+
+
+def unlink_tag_to_post(postid, tagid):
+    """Delete a post tag connection"""
+    connection = website.model.get_db()
+    connection.execute(
+        "DELETE FROM post_tags "
+        "WHERE postid = ? AND "
+        "tagid = ?",
+        (postid, tagid)
+        )
+    return

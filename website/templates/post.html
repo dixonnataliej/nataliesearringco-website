@@ -53,6 +53,30 @@
     <label for="file">Change Image (optional):</label>
     <input type="file" id="file" name="file" accept="image/*">
 
+    <!-- Tag Selection Section -->
+    <p>Select/Deselect existing tags:</p>
+    {% for tag in all_tags %}
+    <label>
+        {% if tag.tagid in post_tags_ids %}
+        <input type="checkbox" name="tags" value="{{ tag.tagid }}"
+               checked>
+        {{ tag.name }}
+        {% else %}
+        <input type="checkbox" name="tags" value="{{ tag.tagid }}">
+        {{ tag.name }}
+        {% endif %}
+    </label>
+    <br>
+    {% endfor %}
+
+    <!-- Multiple New Tags Section -->
+    <p>Add new tags:</p>
+    <div id="new-tags-container">
+        <input type="text" name="new_tags[]" placeholder="New tag (optional)"
+               maxlength="64"/>
+    </div>
+    <button type="button" onclick="addNewTagField()">Add Another Tag</button>
+
     <!-- Submit Button -->
     <button type="submit">Update Post</button>
 </form>
