@@ -5,7 +5,6 @@ from website.api import queries
 from website import helpers
 
 
-
 @website.app.route('/api/v1/posts/')
 def get_posts():
     """Get posts."""
@@ -14,12 +13,17 @@ def get_posts():
     postid_lte = flask.request.args.get("postid_lte",
                                         default=most_recent_postid, type=int)
     page = flask.request.args.get("page", default=0, type=int)
+    tagid = flask.request.args.get("tagid", default=None, type=int)
 
     if page < 0:
         flask.abort(400)
     size = 20
     # Get all relevant posts
-    all_posts = queries.pagination(postid_lte, page)
+    if tagid:
+        all_posts = queries.pagination(postid_lte, page, tagid)
+    else:
+        all_posts = queries.pagination(postid_lte, page)
+
     if all_posts is None:
         num_posts = 0
     else:
@@ -32,6 +36,8 @@ def get_posts():
         it_num = size
         next = "/api/v1/posts/?size=" + str(size) + "&page=" + str(
             page + 1) + "&postid_lte=" + str(postid_lte)
+        if tagid:
+            next = next + "&tagid=" + str(tagid)
 
     # Dictionary to return
     posts_data = {

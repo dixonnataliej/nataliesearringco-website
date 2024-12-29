@@ -39,3 +39,29 @@ body {
     object-fit: cover; /* Maintain aspect ratio, crop if needed */
     border-radius: 8px; /* Optional: add rounded corners for styling */
 }
+
+.tag_btn {
+  display: inline-block; /* To make it fit the content */
+  margin: 10px; /* Space around the button */
+}
+
+#tag-name-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: white;
+      background: linear-gradient(135deg, #fe877d, #63c564);
+      border: none;
+      border-radius: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#tag-name-btn:hover {
+   background: linear-gradient(135deg, #63c564, #fe877d );
+   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+   transform: translateY(-3px);
+}

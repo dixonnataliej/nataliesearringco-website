@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Post from "./post";
+import Tag from "./tag";
 
 export default function Gallery() {
   const [postUrls, setPostUrls] = useState([]); // State to store the URLs
   const [next, setNext] = useState("");
   const [hasMore, setHasMore] = useState(true);
+  const [tagUrls, setTagUrls] = useState([]);
 
   const fetchPost = (url) => {
     console.log(`Fetching posts from ${url}`);
@@ -37,7 +39,13 @@ export default function Gallery() {
   // Initial fetch
   useEffect(() => {
     fetchPost("/api/v1/posts/");
+    fetchTags();
   }, []); // Only runs on the first render
+
+// fetch posts for a certain tag id
+  //const fetchPostByTag = (tagid) => {
+    //fetchPost(`/api/v1/posts/${tagid}`;
+  //};
 
   // Fetch the next page
   const fetchNext = () => {
@@ -46,11 +54,42 @@ export default function Gallery() {
     }
   };
 
+  const fetchTags = () => {
+    let ignoreStaleRequest = false;
+
+    fetch("/api/v1/tags/", { credentials: "same-origin" })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+        return response.json(); // Parse the JSON response
+      })
+      .then((data) => {
+        if (!ignoreStaleRequest) {
+        setTagUrls((prevTagUrls) => {
+          const newUrls = data.map((item) => item.url);
+          return [...new Set([...prevTagUrls, ...newUrls])];
+        });
+        }
+      })
+      .catch((error) => console.log(error));
+
+    return () => {
+      console.log("Cleaning up fetch");
+      ignoreStaleRequest = true;
+    };
+  };
+
   return (
+  <div>
+  <div className="tags">
+  {tagUrls.map((url) => (
+        <Tag key={url} url={url} />
+    ))}
+  </div>
   <div className="gallery">
   {postUrls.map((url) => (
             <Post key={url} url={url} />
           ))}
+  </div>
   </div>
   );
 }
