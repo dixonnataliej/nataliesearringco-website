@@ -6,6 +6,7 @@
     <title>
         nataliesearringco website
     </title>
+        <script src="/static/js/new_post.js" defer></script>
 </head>
 
 <body>
@@ -20,6 +21,24 @@
               required></textarea>
     <input type="text" name="status" placeholder="Status" maxlength="64"
            required/>
+    <!-- Tag Selection Section -->
+    <p>Select existing tags:</p>
+    {% for tag in tags %}
+    <label>
+        <input type="checkbox" name="tags" value="{{ tag.tagid }}">
+        {{ tag.name }}
+    </label>
+    <br>
+    {% endfor %}
+
+    <!-- Multiple New Tags Section -->
+    <p>Add new tags:</p>
+    <div id="new-tags-container">
+        <input type="text" name="new_tags[]" placeholder="New tag (optional)"
+               maxlength="64"/>
+    </div>
+    <button type="button" onclick="addNewTagField()">Add Another Tag</button>
+
     <input type="submit" name="create_post" value="upload new post"/>
     <input type="hidden" name="operation" value="create"/>
 </form>

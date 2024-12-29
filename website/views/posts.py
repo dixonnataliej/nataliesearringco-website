@@ -13,6 +13,7 @@ import arrow
 import website
 from website import helpers
 
+LOGGER = flask.logging.create_logger(website.app)
 
 @website.app.route('/posts/<postname_url_slug>/')  # might change posts to
 # products
@@ -74,10 +75,28 @@ def update_posts():
         path = website.app.config["UPLOAD_FOLDER"] / uuid_basename
         fileobj.save(path)
 
-        connection.execute(
+        cur = connection.execute(
             "INSERT INTO posts (filename, name, price, description, "
             "status) VALUES (?, ?, ?, ?, ?)",
             (uuid_basename, name, price, description, status))
+        postid = cur.lastrowid  # gets new post id
+
+        # Tags
+        selected_tags = flask.request.form.getlist("tags")  # List of tagids
+        new_tags = flask.request.form.getlist("new_tags[]")  # List of new tags
+
+        # Link selected tags to the new post
+        for tagid in selected_tags:
+            link_tag_to_post(postid, tagid)
+
+        LOGGER.debug(new_tags)
+
+        # Handle new tags if provided
+        for new_tag in new_tags:
+            if new_tag.strip():  # Ignore empty inputs
+                new_tag_id = create_new_tag(
+                    new_tag.strip())  # Save each new tag
+                link_tag_to_post(postid, new_tag_id)
     # endif creating a post
     if operation == "delete":
         postid_to_delete = flask.request.form['postid']
@@ -155,3 +174,25 @@ def update_posts():
     url = flask.url_for('show_index')  # return to home page
     return flask.redirect(url)
 
+
+def link_tag_to_post(postid, tagid):
+    """Link tag to post by inserting into post-tags table."""
+    connection = website.model.get_db()
+    connection.execute(
+        "INSERT INTO post_tags (postid, tagid) "
+        "VALUES (?, ?) ",
+        (postid, tagid, )
+    )
+    return
+
+
+def create_new_tag(tag_name):
+    """Create new tag and insert into tags table and return tag id."""
+    connection = website.model.get_db()
+    cur = connection.execute(
+        "INSERT INTO tags (name) "
+        "VALUES (?) ",
+        (tag_name, )
+    )
+    new_tag_id = cur.lastrowid
+    return new_tag_id

@@ -10,6 +10,7 @@
 - do i want the client facing url to be posts/<post name> or something like products/<post-name> ?
 - automatic new tag feature - when new earrings are posted, give them the new tag, then prompt to delete new tags off of earrings posted more than one or two weeks ago
 - add in tag identification (select from existing tags/add new tag) to create post feature
+- currently making separate static js files for just little buttons i'm adding in as opposed to in my react component section, not sure if this is best practice
 
 ADDRESSED
 - fix url for posts - add dashes i think the white space is causing problems
