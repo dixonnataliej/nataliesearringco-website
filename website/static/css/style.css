@@ -65,3 +65,25 @@ body {
    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
    transform: translateY(-3px);
 }
+
+/* all button unsets tags, looks the same as tag btn */
+#all-posts-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: white;
+      background: linear-gradient(135deg, #fe877d, #63c564);
+      border: none;
+      border-radius: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#all-posts-btn:hover {
+   background: linear-gradient(135deg, #63c564, #fe877d );
+   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+   transform: translateY(-3px);
+}

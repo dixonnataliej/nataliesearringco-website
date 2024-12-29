@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-export default function Tag({ url }) {
+export default function Tag({ url, onClick }) {
     const [tagid, setTagid] = useState("");
     const [tagName, setTagName] = useState("");
     useEffect(() => {
@@ -34,7 +34,9 @@ export default function Tag({ url }) {
 
   return (
   <div className="tag_btn">
-  <button id="tag-name-btn">{tagName}</button>
+  <button id="tag-name-btn" onClick={() => onClick(tagid)} >
+     {tagName}
+  </button>
   </div>
   )
 };

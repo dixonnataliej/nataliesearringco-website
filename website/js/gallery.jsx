@@ -18,11 +18,10 @@ export default function Gallery() {
         return response.json(); // Parse the JSON response
       })
       .then((data) => {
+        console.log("Fetched posts:", data.results); // Log posts data
         if (!ignoreStaleRequest) {
-        setPostUrls((prevPostUrls) => {
           const newUrls = data.results.map((item) => item.url);
-          return [...new Set([...prevPostUrls, ...newUrls])]; // Avoid duplicates
-        });
+          setPostUrls(newUrls);
 
           setNext(data.next);
           setHasMore(!!data.next); // Set hasMore to true if next page exists
@@ -42,10 +41,10 @@ export default function Gallery() {
     fetchTags();
   }, []); // Only runs on the first render
 
-// fetch posts for a certain tag id
-  //const fetchPostByTag = (tagid) => {
-    //fetchPost(`/api/v1/posts/${tagid}`;
-  //};
+  //fetch posts for a certain tag id
+  const fetchPostByTag = (tagid) => {
+    fetchPost(`/api/v1/posts/?tagid=${tagid}`);
+  };
 
   // Fetch the next page
   const fetchNext = () => {
@@ -81,8 +80,15 @@ export default function Gallery() {
   return (
   <div>
   <div className="tags">
+  <button
+          id="all-posts-btn"
+          className="tag_btn" // same style as the tags
+          onClick={() => fetchPost("/api/v1/posts/")}
+        >
+          All
+        </button>
   {tagUrls.map((url) => (
-        <Tag key={url} url={url} />
+        <Tag key={url} url={url} onClick={fetchPostByTag} />
     ))}
   </div>
   <div className="gallery">
