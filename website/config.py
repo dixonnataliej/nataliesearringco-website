@@ -13,6 +13,8 @@ APPLICATION_ROOT = '/'
 SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 SESSION_COOKIE_NAME = 'login'
 
+OWNER_PASSWORD_HASH = os.getenv("FLASK_OWNER_PASSWORD")
+
 # File Upload to var/uploads/
 WEBSITE_ROOT = pathlib.Path(__file__).resolve().parent.parent
 UPLOAD_FOLDER = WEBSITE_ROOT/'var'/'uploads'

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>
+        nataliesearringco website
+    </title>
+</head>
+<body>
+<p>Hello to someone who is hopefully Natalie! If you are not Natalie, good
+    job on finding my secret owner log in button so I can add and edit my
+    earring posts! You can now return to the home page.</p>
+<a href="{{url_for('show_index')}}">BACK TO HOME</a>
+
+<form action="/login/" method="post"
+      enctype="multipart/form-data">
+  <input type="password" name="password" required placeholder="password"/>
+  <input type="submit" value="login"/>
+</form>
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+</body>
+</html>

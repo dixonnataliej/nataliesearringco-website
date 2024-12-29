@@ -12,6 +12,7 @@ import website
 @website.app.route('/')
 def show_index():
     """Display / route."""
+    logged_in = flask.session.get('logged_in')
     connection = website.model.get_db()
 
     cur = connection.execute(
@@ -20,7 +21,7 @@ def show_index():
     )
     post_names = cur.fetchall()
 
-    context = {"post_names": post_names}
+    context = {"post_names": post_names, "logged_in": logged_in}
     return flask.render_template("index.html", **context)
 
 
