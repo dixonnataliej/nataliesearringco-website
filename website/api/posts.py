@@ -83,7 +83,8 @@ def get_one_post(postid):
     data["status"] = post_info["status"]
     data["created"] = post_info["created"]
     data["humanPostUrl"] = ("/posts/"
-                            + helpers.string_to_url(post_info["name"]) + '/')
+                            + helpers.string_to_url(post_info["name"]) + '/'
+                            + str(postid) + "/")
 
     # Fetch and add tags to the data
     tags = queries.get_tags_for_post(postid)

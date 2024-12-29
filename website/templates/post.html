@@ -26,7 +26,8 @@
 <!-- Hidden Form for Updating the Post triggered by JS edit post btn-->
 <div id="update-post-form" style="display: none;">
 <form action="{{url_for('update_posts')}}?target={{ url_for('show_post',
- postname_url_slug=postname_url_slug) }}" method="post"
+ postname_url_slug = postname_url_slug, postid_url_slug = postid) }}"
+      method="post"
       enctype="multipart/form-data">
     <input type="hidden" name="postid" value="{{ postid }}">
     <input type="hidden" name="operation" value="edit"/>

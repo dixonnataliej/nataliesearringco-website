@@ -15,23 +15,23 @@ from website import helpers
 
 LOGGER = flask.logging.create_logger(website.app)
 
-@website.app.route('/posts/<postname_url_slug>/')  # might change posts to
-# products
-def show_post(postname_url_slug):
+@website.app.route('/posts/<postname_url_slug>/<postid_url_slug>/')
+# might change posts toproducts
+def show_post(postname_url_slug, postid_url_slug):
     """Display post."""
     # Connect to database
     connection = website.model.get_db()
-    name = helpers.url_to_string(postname_url_slug)
 
     cur = connection.execute(
-        "SELECT postid, filename, name, price, description, status, created "
+        "SELECT filename, name, price, description, status, created "
         "FROM posts "
-        "WHERE name = ?",
-        (name,)
+        "WHERE postid = ?",
+        (postid_url_slug,)
     )
     post_info = cur.fetchone()
-    postid = post_info["postid"]
+    postid = postid_url_slug
     img_url = "/uploads/" + post_info["filename"]
+    name = post_info["name"]
     price = post_info["price"]
     description = post_info["description"]
     status = post_info["status"]
