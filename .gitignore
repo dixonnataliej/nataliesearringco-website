@@ -5,17 +5,6 @@
 # A .gitignore file will tell git which files and directories to ignore and
 # not add to version control.
 
-# EECS 485 All Projects
-submit.tar.gz
-submit.tar.xz
-starter_files.tar.gz
-starter_files.tar.xz
-
-# EECS 485 Project 1
-/insta485/html/
-/hello/html/
-/hello_css/html/
-
 # EECS 485 Project 2
 *.pem
 *.db
@@ -32,14 +21,6 @@ bundle.js
 **/cypress/videos
 **/cypress/screenshots
 
-# EECS 485 Project 4
-tmp
-output
-
-# EECS 485 Project 5
-output*
-total_document_count.txt
-**/inverted_index/crawl/
 
 # Python
 *.pyc
@@ -76,3 +57,6 @@ files_for_autograder_io/
 # Google Drive and Dropbox
 Icon
 .dropbox*
+
+# secrets are in .env
+.env
