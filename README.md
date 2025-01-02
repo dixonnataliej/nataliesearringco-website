@@ -41,7 +41,7 @@ This project is inspired by my coursework in Web Systems and serves as an opport
 ---
 
 ## Acknowledgments  
-This project was inspired by my Web Systems class, which introduced me to many of the technologies and concepts used here. Special thanks to my instructors and classmates for their insights and encouragement.  
+This project was inspired by my Web Systems class, which introduced me to many of the technologies and concepts used here. Special thanks to my instructors and project partner for their insights and encouragement.  
 
 ---
 
