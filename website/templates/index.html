@@ -21,6 +21,10 @@ under development :)
 <a href="{{url_for('login')}}">LOGIN (just for Natalie :)</a>
 {% else %}
 <p>HI NATALIE! YOU ARE LOGGED IN! TO YOUR WEBSITE THAT YOU OWN!</p>
+<!--Logout-->
+<form action="/logout/" method="post" enctype="multipart/form-data">
+    <input type="submit" name="logout" value="Logout"/>
+</form>
 {% endif %}
 
 <p>Earrings currently in the database (for testing purposes):</p>

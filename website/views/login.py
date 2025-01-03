@@ -2,7 +2,8 @@
 Website login view for owner.
 
 URLs include:
-/login
+/login/
+/logout
 """
 import flask
 from werkzeug.security import check_password_hash
@@ -26,3 +27,10 @@ def login():
 
     # If it's a GET request, just show the login page
     return flask.render_template('login.html')
+
+
+@website.app.route('/logout/', methods=['POST'])
+def logout():
+    flask.session['logged_in'] = False
+    url = flask.url_for('show_index')  # return to home page
+    return flask.redirect(url)
