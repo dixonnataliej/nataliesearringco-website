@@ -16,16 +16,22 @@
 </div>
 
 under development :)
+
 {% if not logged_in %}
 <a href="{{url_for('login')}}">LOGIN (just for Natalie :)</a>
 {% else %}
 <p>HI NATALIE! YOU ARE LOGGED IN! TO YOUR WEBSITE THAT YOU OWN!</p>
 {% endif %}
+
 <p>Earrings currently in the database (for testing purposes):</p>
 {% for name in post_names %}
 <p>{{name.name}}</p>
 {% endfor %}
+
+{% if logged_in %}
 <a href="{{url_for('show_new_post_page')}}">create new post</a>
+{% endif %}
+
 <div id="reactEntry">
     Loading ...
   </div>

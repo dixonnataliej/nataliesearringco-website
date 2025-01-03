@@ -16,9 +16,11 @@ from website import helpers
 LOGGER = flask.logging.create_logger(website.app)
 
 @website.app.route('/posts/<postname_url_slug>/<postid_url_slug>/')
-# might change posts toproducts
+# might change posts to products
 def show_post(postname_url_slug, postid_url_slug):
     """Display post."""
+    logged_in = flask.session.get('logged_in')
+
     # Connect to database
     connection = website.model.get_db()
 
@@ -55,7 +57,7 @@ def show_post(postname_url_slug, postid_url_slug):
     context = {"postid": postid, "img_url": img_url, "name": name, "price":
         price, "description": description, "status": status, "timestamp":
         timestamp, "postname_url_slug": postname_url_slug, "all_tags":
-        all_tags, "post_tags_ids": post_tags_ids}
+        all_tags, "post_tags_ids": post_tags_ids, "logged_in": logged_in}
     return flask.render_template("post.html", **context)
 
 @website.app.route("/posts/", methods=["POST"])
